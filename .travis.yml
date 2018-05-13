@@ -1,0 +1,6 @@
+language: bash
+
+# Run tests on currently completed sections
+script:
+    - bash ./tools/test_chips 01
+    - bash ./tools/test_chips 02

@@ -1,0 +1,59 @@
+#!/bin/bash
+# Run the hardware simulator on each test file in the 01 project directory and
+# only exit 0 if all succeed
+
+set -eu
+
+GIT_DIR=$(git rev-parse --show-toplevel)
+
+function usage {
+  cat <<EOF
+Usage: ./tools/test-chips.sh <project> [chips]
+
+  options:"
+    -h | --help       display this help
+
+  Run the tests on the list of chips passed as arguments.
+  If no chip arguments are passed, run tests on all chips.
+EOF
+  exit 1
+}
+
+function test_chip {
+  test_file=$1
+  echo "Running: ${GIT_DIR}/tools/HardwareSimulator.sh ${test_file}"
+  output=$(${GIT_DIR}/tools/HardwareSimulator.sh ${test_file})
+  echo $output
+  echo ${output} | grep -q "End of script - Comparison ended successfully"
+  if [[ $? != 0 ]]; then
+    exit 1
+  fi
+}
+
+
+while :
+do
+  case "$1" in
+    -h | --help)
+      usage
+      ;;
+
+    *) # No more options
+      PROJECT=$1
+      shift
+
+      if [ $# -eq 0 ]; then
+        for chip in $(find ${GIT_DIR}/projects/${PROJECT} -name "*.tst") ; do
+          test_chip ${chip}
+        done
+      else
+        for chip in $@; do
+          echo $chip
+          test_chip $(find ${GIT_DIR}/projects/${PROJECT} -name "${chip}.tst")
+        done
+      fi
+
+      break
+      ;;
+  esac
+done
