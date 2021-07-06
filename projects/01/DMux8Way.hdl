@@ -16,14 +16,5 @@ CHIP DMux8Way {
     OUT a, b, c, d, e, f, g, h;
 
     PARTS:
-    Not(in=sel[2], out=notSelTwo);
-
-    // Split on sel MSB
-    And(a=in, b=notSelTwo, out=inAndNotSelTwo);
-    And(a=in, b=sel[2], out=inAndSelTwo);
-
-    // Demultiplex a through d and e through h
-    DMux4Way(in=inAndNotSelTwo, sel=sel[0..1], a=a, b=b, c=c, d=d);
-    DMux4Way(in=inAndSelTwo, sel=sel[0..1], a=e, b=f, c=g, d=h);
-
+    // Put your code here:
 }

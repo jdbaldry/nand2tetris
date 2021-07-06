@@ -4,7 +4,7 @@
 // File name: projects/01/Or8Way.hdl
 
 /**
- * 8-way Or:
+ * 8-way Or: 
  * out = (in[0] or in[1] or ... or in[7])
  */
 
@@ -13,24 +13,5 @@ CHIP Or8Way {
     OUT out;
 
     PARTS:
-    // Ripple Or implementation
-    // Or(a=in[0], b=in[1], out=oneOrTwo);
-    // Or(a=oneOrTwo, b=in[2], out=oneOrTwoOrThree);
-    // Or(a=oneOrTwoOrThree, b=in[3], out=oneOrTwoOrThreeOrFour);
-    // Or(a=oneOrTwoOrThreeOrFour, b=in[4], out=oneOrTwoOrThreeOrFourOrFive);
-    // Or(a=oneOrTwoOrThreeOrFourOrFive, b=in[5], out=oneOrTwoOrThreeOrFourOrFiveOrSix);
-    // Or(a=oneOrTwoOrThreeOrFourOrFiveOrSix, b=in[6], out=oneOrTwoOrThreeOrFourOrFiveOrSixOrSeven);
-    // Or(a=oneOrTwoOrThreeOrFourOrFiveOrSixorSeven, b=in[7], out=out);
-
-    //
-    Or(a=in[0], b=in[1], out=oneOrTwo);
-    Or(a=in[2], b=in[3], out=threeOrFour);
-    Or(a=in[4], b=in[5], out=fiveOrSix);
-    Or(a=in[6], b=in[7], out=sevenOrEight);
-
-    Or(a=oneOrTwo, b=threeOrFour, out=oneOrTwoOrThreeOrFour);
-    Or(a=fiveOrSix, b=sevenOrEight, out=fiveOrSixOrSevenOrEight);
-
-    Or(a=oneOrTwoOrThreeOrFour, b=fiveOrSixOrSevenOrEight, out=out);
-
+    // Put your code here:
 }

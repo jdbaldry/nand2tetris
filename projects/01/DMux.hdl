@@ -7,22 +7,6 @@
  * Demultiplexor:
  * {a, b} = {in, 0} if sel == 0
  *          {0, in} if sel == 1
- *
- * |  in   |  sel  |   a   |   b   |
- * |   0   |   0   |   0   |   0   |
- * |   0   |   1   |   0   |   0   |
- * |   1   |   0   |   1   |   0   |
- * |   1   |   1   |   0   |   1   |
- *
- *          NOT
- *          | \
- * sel --o--|  [] -- notSel -- |``````.
- *       |  | /                |  AND | -- a
- *  in --]-----------o-------- |,,,,,,'
- *       |           |
- *       |           `-------- |``````.
- *       |                     |  AND | -- b
- *       `-------------------- |,,,,,,'
  */
 
 CHIP DMux {
@@ -30,9 +14,5 @@ CHIP DMux {
     OUT a, b;
 
     PARTS:
-    Not(in=sel, out=notSel);
-
-    And(a=notSel, b=in, out=a);
-    And(a=in, b=sel, out=b);
-
+    // Put your code here:
 }
