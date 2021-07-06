@@ -2,7 +2,7 @@
 
 with pkgs;
 mkShell {
-  buildInputs = [ gnumake zip ];
+  buildInputs = [ gnumake openjdk zip ];
   shellHook = ''
     export PATH="$PATH":"$(pwd)"
   '';
