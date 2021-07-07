@@ -1,4 +1,5 @@
-include ../../common.mk
+GITROOT = $(shell git rev-parse --show-toplevel)
+include $(GITROOT)/common.mk
 
 %.out: ## Produce the truth table output from an HDL chip.
 %.out: %.tst %.hdl

@@ -5,8 +5,6 @@ export SHELLOPTS := pipefail:errexit
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rule
 
-GITROOT = $(shell git rev-parse --show-toplevel)
-
 # Adapted from https://suva.sh/posts/well-documented-makefiles/
 .PHONY: help
 help: ## Display this help
