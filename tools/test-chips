@@ -17,7 +17,7 @@ EOF
 }
 
 function test_chip {
-  test_file=$1
+  local -r test_file=$1
   echo Running: "${GIT_ROOT}"/tools/HardwareSimulator.sh "${test_file}"
   output="$("${GIT_ROOT}"/tools/HardwareSimulator.sh "${test_file}")"
   echo "${output}"
@@ -26,7 +26,7 @@ function test_chip {
   fi
 }
 
-while :; do
+while true; do
   case "$1" in
     -h | --help)
       usage
