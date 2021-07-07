@@ -10,11 +10,18 @@
  * else if (inc[t] == 1)   out[t+1] = out[t] + 1  (integer addition)
  * else                    out[t+1] = out[t]
  */
-
 CHIP PC {
     IN in[16],load,inc,reset;
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    Not(in=load, out=notLoad);
+    And(a=inc, b=notLoad, out=andIncNotLoad);
+    Or(a=andIncNotLoad, b=reset, out=sel0);
+
+    Or(a=load, b=reset, out=sel1);
+
+    Inc16(in=regOut, out=incOut);
+    Mux4Way16(a=regOut, b=incOut, c=in, d=false, sel[0]=sel0, sel[1]=sel1, out=muxOut);
+    Register(in=muxOut, load=true, out=regOut, out=out);
 }
