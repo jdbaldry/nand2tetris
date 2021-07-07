@@ -59,5 +59,13 @@ CHIP ALU {
 
     // Postprocess out.
     Not16(in=postF, out=notPostF);
-    Mux16(a=postF, b=notPostF, sel=no, out=out);
+    Mux16(a=postF, b=notPostF, sel=no, out=out, out[15]=outMsb, out[0..7]=outLowEight, out[8..15]=outHighEight);
+
+    // Process status.
+    Or8Way(in=outLowEight, out=orLowEight);
+    Or8Way(in=outHighEight, out=orHighEight);
+    Or(a=orLowEight, b=orHighEight, out=notZr);
+    Not(in=notZr, out=zr);
+
+    And(a=outMsb, b=true, out=ng);
 }
