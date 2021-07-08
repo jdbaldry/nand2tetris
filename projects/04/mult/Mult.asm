@@ -16,32 +16,62 @@
 //   for i in range(R1):
 //     R2 += R0
 
-  @i
-  M=0    // i = 0
-
   @R2
-  M=0    // R2 = 0
+  M=0      // R2 = 0
 
-(LOOP)
   @i
-  D=M    // Load i
-
-  @R1
-  D=M-D  // R1 - i
-  @END
-  D;JEQ  // if (R1 - i) == 0
+  M=0      // i = 0
 
   @R0
-  D=M    // Load R0
+  D=M      // Load R0
+  @R1
+  D=D-M    // R0 - R1
+  @LOOP_R0
+  D;JLE    // if (R0 <= R1)
+  @LOOP_R1
+  0;JMP    // else
+
+(LOOP_R0)
+  @i
+  D=M      // Load i
+
+  @R0
+  D=M-D    // R0 - i
+  @END
+  D;JEQ    // if (R0 - i) == 0
+
+  @R1
+  D=M      // Load R1
 
   @R2
-  M=M+D  // R2 += R0
+  M=M+D    // R2 += R1
 
   @i
-  M=M+1  // i++
+  M=M+1    // i++
 
-  @LOOP
-  0;JMP  // Loop
+  @LOOP_R0
+  0;JMP    // Loop
+
+(LOOP_R1)
+  @i
+  D=M      // Load i
+
+  @R1
+  D=M-D    // R1 - i
+  @END
+  D;JEQ    // if (R1 - i) == 0
+
+  @R0
+  D=M      // Load R0
+
+  @R2
+  M=M+D    // R2 += R0
+
+  @i
+  M=M+1    // i++
+
+  @LOOP_R1
+  0;JMP    // Loop
 
 (END)
   @END
