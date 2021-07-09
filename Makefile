@@ -17,17 +17,18 @@ help:
 COMPLETED := 01 02 03 04
 CHIPS     := $(shell git ls-files -co $(patsubst %,projects/%/**/*.hdl, $(COMPLETED)))
 HACKS     := $(shell git ls-files -co $(patsubst %,projects/%/**/*.asm, $(COMPLETED)))
+TESTED    := $(CHIPS:.hdl=.out.TESTED) $(HACKS:.asm=.hack.TESTED)
 
 .TESTED: ## Test everything!
-.TESTED: $(CHIPS:.hdl=.out.TESTED) $(HACKS:.asm=.hack.TESTED)
+.TESTED: $(TESTED)
 	touch .TESTED
 
 projects/00/project0.zip: ## Build the submission zip archive.
 projects/00/project0.zip: projects/00/file.txt
 	zip $@ $<
 
-%.out.TESTED: ## Test all the HDL chips against a known good implementation.
-%.out.TESTED: %.tst %.hdl
+%.out %.out.TESTED: ## Test all the HDL chips against a known good implementation.
+%.out %.out.TESTED: %.tst %.hdl
 	if $(GITROOT)/tools/HardwareSimulator.sh $<; then touch $@; else exit 1; fi
 
 %.hack: ## Assemble a hack program.
@@ -37,3 +38,6 @@ projects/00/project0.zip: projects/00/file.txt
 %.hack.TESTED: ## Test that a hack program works as expected.
 %.hack.TESTED: %.tst %.hack
 	if $(GITROOT)/tools/CPUEmulator.sh $<; then touch $@; else exit 1; fi
+
+clean: ## Remove all build artifacts.
+	rm $(TESTED)
