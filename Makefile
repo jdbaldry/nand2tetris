@@ -15,8 +15,8 @@ help:
 	@awk 'BEGIN {FS = ": ##"; printf "Usage:\n  make <target>\n\nTargets:\n"} /^[a-zA-Z0-9_\.\-\/%]+: ##/ { printf "  %-45s %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
 
 COMPLETED := 01 02 03 04
-CHIPS     := $(shell git ls-files -co $(patsubst %,projects/%/**/*.hdl, $(COMPLETED)))
-HACKS     := $(shell git ls-files -co $(patsubst %,projects/%/**/*.asm, $(COMPLETED)))
+CHIPS     := $(shell git ls-files -co $(patsubst %,projects/%/*.hdl, $(COMPLETED)))
+HACKS     := $(shell git ls-files -co $(patsubst %,projects/%/*.asm, $(COMPLETED)))
 TESTED    := $(CHIPS:.hdl=.out.TESTED) $(HACKS:.asm=.hack.TESTED)
 
 .TESTED: ## Test everything!
