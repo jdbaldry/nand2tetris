@@ -11,71 +11,71 @@
 // "white" in every pixel;
 // the screen should remain fully clear as long as no key is pressed.
 
-  @i
-  M=0
+  @offset       // Screen offset.
+  M=0           // Init at 0.
 
   @8191
   D=A
-  @n
-  M=D
+  @max_offset   // Maximum screen offset (last word in screen memory map).
+  M=D           // Init at 8191.
 
-(LOOP)
-  @i
+(LOOP)          // Infinite program loop.
+  @offset
   D=M
-  @RESET
-  D;JLT
-  @n
+  @ZERO_OFFSET
+  D;JLT         // If offset < 0; reset it to zero.
+  @max_offset
   D=D-M
-  @STOP
+  @MAX_OFFSET   // If offset > max_offset; set it to max_offset.
   D;JGT
 
   @KBD
   D=M
   @UNPAINT
-  D;JEQ
+  D;JEQ         // If no key is pressed, start unpainting the screen.
   @PAINT
-  0;JMP
+  0;JMP         // Else, start painting the screen.
 
-(RESET)
-  @i
+(ZERO_OFFSET)   // Set the offset variable to zero.
+  @offset
   M=0
   @LOOP
   0;JMP
 
-(STOP)
-  @n
+(MAX_OFFSET)    // Set the offset variable to max_offset.
+  @max_offset
   D=M
-  @i
+  @offset
   M=D
   @LOOP
   0;JMP
 
-(PAINT)
-  @i
+(PAINT)         // Paint the screen a word at a time.
+  @offset
   D=M
   @SCREEN
   A=D+A
   M=-1
 
-  @i
-  M=M+1
+  @offset
+  M=M+1         // Increment screen offset.
 
   @LOOP
   0;JMP
 
-(UNPAINT)
-  @i
+(UNPAINT)       // Unpaint the screen a word at a time.
+  @offset
   D=M
   @SCREEN
   A=D+A
   M=0
 
-  @i
-  M=M-1
+  @offset
+  M=M-1         // -1 == 1111 1111 1111 1111 (twos complement)
 
   @LOOP
   0;JMP
 
-(END)
+(END)           // Should never be reached.
   @END
   0;JMP
