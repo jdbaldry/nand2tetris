@@ -26,12 +26,30 @@
   D=M      // Load R0
   @R1
   D=D-M    // R0 - R1
-  @LOOP_R0
-  D;JLE    // if (R0 <= R1)
-  @LOOP_R1
+  @SWAP
+  D;JGE    // if (R0 >= R1)
+  @LOOP
   0;JMP    // else
 
-(LOOP_R0)
+(SWAP)     // swap R0 and R1
+  @R0
+  D=M
+  @tmp
+  M=D
+  @R1
+  D=M
+  @R0
+  M=D
+  @tmp
+  D=M
+  @R1
+  M=D
+
+  @LOOP
+  0;JMP
+
+
+(LOOP)
   @i
   D=M      // Load i
 
@@ -49,28 +67,7 @@
   @i
   M=M+1    // i++
 
-  @LOOP_R0
-  0;JMP    // Loop
-
-(LOOP_R1)
-  @i
-  D=M      // Load i
-
-  @R1
-  D=M-D    // R1 - i
-  @END
-  D;JEQ    // if (R1 - i) == 0
-
-  @R0
-  D=M      // Load R0
-
-  @R2
-  M=M+D    // R2 += R0
-
-  @i
-  M=M+1    // i++
-
-  @LOOP_R1
+  @LOOP
   0;JMP    // Loop
 
 (END)
