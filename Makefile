@@ -10,9 +10,9 @@ GITROOT   = $(shell git rev-parse --show-toplevel)
 
 # Adapted from https://suva.sh/posts/well-documented-makefiles/
 .PHONY: help
-help: ## Display this help
+help: ## Display this help.
 help:
-	@awk 'BEGIN {FS = ": ##"; printf "Usage:\n  make <target>\n\nTargets:\n"} /^[a-zA-Z0-9_\.\-\/%]+: ##/ { printf "  %-45s %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
+	@awk 'BEGIN {FS = ": ##"; printf "Usage:\n  make <target>\n\nTargets:\n"} /^[a-zA-Z0-9_\.\-\/% ]+: ##/ { printf "  %-45s %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
 
 COMPLETED := 01 02 03 04
 CHIPS     := $(shell git ls-files -co $(patsubst %,projects/%/*.hdl, $(COMPLETED)))
@@ -35,8 +35,8 @@ projects/00/project0.zip: projects/00/file.txt
 %.hack: %.asm
 	$(GITROOT)/tools/Assembler.sh $<
 
-%.hack.TESTED: ## Test that a hack program works as expected.
-%.hack.TESTED: %.tst %.hack
+%.hack %.hack.TESTED: ## Test that a hack program works as expected.
+%.hack %.hack.TESTED: %.tst
 	if $(GITROOT)/tools/CPUEmulator.sh $<; then touch $@; else exit 1; fi
 
 clean: ## Remove all build artifacts.
