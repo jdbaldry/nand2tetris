@@ -24,10 +24,15 @@
 
   @R0
   D=M      // Load R0
+  @END
+  D;JEQ    // if (R0 == 0) => R2 == 0
   @R1
   D=D-M    // R0 - R1
   @SWAP
   D;JGE    // if (R0 >= R1)
+  D=M
+  @END
+  D;JEQ    // If (R1 == 0) => R2 == 0
   @LOOP
   0;JMP    // else
 
