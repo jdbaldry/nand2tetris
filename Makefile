@@ -14,10 +14,11 @@ help: ## Display this help.
 help:
 	@awk 'BEGIN {FS = ": ##"; printf "Usage:\n  make <target>\n\nTargets:\n"} /^[a-zA-Z0-9_\.\-\/% ]+: ##/ { printf "  %-45s %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
 
-COMPLETED := 01 02 03 04 05
+COMPLETED := 01 02 03 04
 CHIPS     := $(shell git ls-files -co $(patsubst %,projects/%/*.hdl, $(COMPLETED)))
 HACKS     := $(shell git ls-files -co $(patsubst %,projects/%/*.asm, $(COMPLETED)))
-TESTED    := $(CHIPS:.hdl=.out.TESTED) $(HACKS:.asm=.hack.TESTED)
+# Note: projects/05/Memory.hdl must be tested manually and is therefore not included.
+TESTED    := $(CHIPS:.hdl=.out.TESTED) $(HACKS:.asm=.hack.TESTED) projects/05/CPU.out.TESTED
 
 .TESTED: ## Test everything!
 .TESTED: $(TESTED)
