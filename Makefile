@@ -17,7 +17,7 @@ help:
 COMPLETED := 01 02 03 04
 CHIPS     := $(shell git ls-files -co $(patsubst %,projects/%/*.hdl, $(COMPLETED)))
 HACKS     := $(shell git ls-files -co $(patsubst %,projects/%/*.asm, $(COMPLETED)))
-# Note: projects/05/Memory.hdl must be tested manually and is therefore not included.
+# Note: projects/05/{Computer,Memory}.hdl files must be tested manually and are therefore not included.
 TESTED    := $(CHIPS:.hdl=.out.TESTED) $(HACKS:.asm=.hack.TESTED) projects/05/CPU.out.TESTED
 
 .TESTED: ## Test everything!
